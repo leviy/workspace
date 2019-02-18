@@ -14,6 +14,7 @@ without port binding conflicts.
 
 - [Docker](https://docs.docker.com/install/)
 - [Docker Compose](https://docs.docker.com/compose/)
+- A DNS resolver that resolves any hostname ending in ".localhost" to 127.0.0.1 (see [instructions](docs/dns.md))
 
 ### Installation
 
