@@ -1,5 +1,7 @@
 # LEVIY Workspace
 
+[![Build Status](https://travis-ci.com/leviy/workspace.svg?token=gMER3s1tPFa8FEEFhAM4&branch=master)](https://travis-ci.com/leviy/workspace)
+
 The Docker Compose file in this repository contains an instance of
 [Traefik](https://traefik.io/) for development purposes. It allows you to access
 microservices through your browser using a hostname (such as
