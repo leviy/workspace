@@ -15,4 +15,4 @@ script:
   - docker-compose -f tests/docker-compose.yml up -d
   - sleep 1
   - curl --fail --output test.html http://test.localhost
-  - grep 'Welcome to nginx!' test.html
+  - grep 'Hello world!' test.html
