@@ -1,5 +1,18 @@
+dist: xenial
+
+branches:
+  only:
+    - master
+
 services:
   - docker
 
+before_script:
+  - sudo sed -i '/^127.0.0.1/ s/$/ test.localhost/' /etc/hosts
+
 script:
-  - docker-compose config
+  - docker-compose up -d
+  - docker-compose -f tests/docker-compose.yml up -d
+  - sleep 1
+  - curl --fail --output test.html http://test.localhost
+  - grep 'Hello world!' test.html

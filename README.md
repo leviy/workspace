@@ -47,15 +47,21 @@ services:
     image: nginx
     networks:
       - workspace
+      - default
     labels:
-      - "traefik.frontend.rule=Host:subdomain.leviy.localhost"
-      - "traefik.enable=true"
+      traefik.frontend.rule: Host:subdomain.leviy.localhost
+      traefik.enable: 'true'
 
 networks:
   workspace:
     external:
       name: workspace_default
 ```
+
+Web server services that should be reverse proxied should be linked to both the
+`workspace` network and the `default` network of that Docker Compose project.
+Non-web services (such as databases, etc.) should only be linked to the
+`default` network.
 
 When started, Traefik will automatically detect this service and start routing
 traffic to it.
