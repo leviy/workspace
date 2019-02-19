@@ -5,6 +5,7 @@ services:
     image: nginx
     networks:
       - workspace
+      - default
     labels:
       traefik.frontend.rule: Host:test.localhost
       traefik.enable: 'true'
