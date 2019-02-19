@@ -48,8 +48,8 @@ services:
     networks:
       - workspace
     labels:
-      - "traefik.frontend.rule=Host:subdomain.leviy.localhost"
-      - "traefik.enable=true"
+      traefik.frontend.rule: Host:subdomain.leviy.localhost
+      traefik.enable: 'true'
 
 networks:
   workspace:

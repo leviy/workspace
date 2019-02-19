@@ -6,8 +6,8 @@ services:
     networks:
       - workspace
     labels:
-      - "traefik.frontend.rule=Host:test.localhost"
-      - "traefik.enable=true"
+      traefik.frontend.rule: Host:test.localhost
+      traefik.enable: 'true'
 
 networks:
   workspace:
