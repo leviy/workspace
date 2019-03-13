@@ -11,6 +11,20 @@ host you need to configure your DNS to resolve all hostnames ending on
 On Ubuntu 18.04 no action is required, because [systemd-resolved](https://manpages.ubuntu.com/manpages/bionic/man8/systemd-resolved.service.8.html)
 already resolves hostnames ending on ".localhost" to 127.0.0.1 and ::1.
 
+If for some reason resolving is not working on Ubuntu, make sure that the
+symlink `/etc/resolv.conf` is pointing to `/run/systemd/resolve/stub-resolv.conf`:
+
+```bash
+ll /etc/resolv.conf
+```
+
+If this doesn't point to `/run/systemd/resolve/stub-resolv.conf`, overwrite the
+symbolic link:
+
+```bash
+sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
+```
+
 ## macOS High Sierra
 
 On macOS the same can be achieved by installing dnsmasq and configuring it to
