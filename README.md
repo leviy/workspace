@@ -1,4 +1,6 @@
-# LEVIY Workspace
+<img src="docs/logo.svg" width="200" alt="Leviy logo" align="right" />
+
+# Leviy Workspace
 
 [![Build Status](https://travis-ci.com/leviy/workspace.svg?token=gMER3s1tPFa8FEEFhAM4&branch=master)](https://travis-ci.com/leviy/workspace)
 
