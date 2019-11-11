@@ -2,7 +2,7 @@ version: '3'
 
 services:
   reverse-proxy:
-    image: traefik
+    image: traefik:v1.7.0
     command: --api --docker --docker.endpoint=tcp://docker-socket-proxy:2375 --docker.exposedByDefault=false --docker.network=workspace_default
     ports:
       - 80:80
