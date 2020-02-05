@@ -13,7 +13,7 @@ services:
       - traefik-docker
 
   # Improve security by not giving Traefik direct access to the docker socket
-  # See https://docs.traefik.io/configuration/backends/docker/#security-considerations
+  # See https://docs.traefik.io/v1.7/configuration/backends/docker/#security-considerations
   # and https://github.com/containous/traefik/issues/4174#issuecomment-446564816
   docker-socket-proxy:
     image: tecnativa/docker-socket-proxy
