@@ -28,6 +28,12 @@ services:
     networks:
       - traefik-docker
 
+  rabbitmq:
+    build: docker/rabbitmq
+    ports:
+      - 15672:15672
+      - 5672:5672
+
 networks:
   # The traefik-docker network is intended to be used by Traefik to access the docker-socket-proxy service, and
   # shouldn't be used by other services.
