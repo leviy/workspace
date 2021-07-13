@@ -1,5 +1,5 @@
 {
-    "rabbit_version": "3.6",
+    "rabbit_version": "3.8",
     "users": [
         {
             "name":"guest",
