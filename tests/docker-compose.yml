@@ -6,13 +6,13 @@ services:
     volumes:
       - .:/var/www/html/
     networks:
-      - workspace
-      - default
+      - traefik-public
     labels:
-      traefik.frontend.rule: Host:test.localhost
-      traefik.enable: 'true'
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.routers.dashboard.entrypoints=web"
+      - "traefik.http.routers.dashboard.rule=Host(`test.localhost`)"
 
 networks:
-  workspace:
-    external:
-      name: workspace_default
+  traefik-public:
+    external: true

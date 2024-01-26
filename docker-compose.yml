@@ -2,31 +2,28 @@ version: '3'
 
 services:
   reverse-proxy:
-    image: traefik:v1.7.0
-    command: --api --docker --docker.endpoint=tcp://docker-socket-proxy:2375 --docker.exposedByDefault=false --docker.network=workspace_default
+    image: traefik:latest
+    command:
+      - "--log.level=DEBUG"
+      - "--log.filePath=/var/log/traefik/traefik.log"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.network=traefik-public"
+      - "--providers.docker.exposedbydefault=false"
+      - "--providers.docker.endpoint=unix:///var/run/docker.sock"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--entrypoints.mysql.address=:3306"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /var/log/traefik:/var/log/traefik
     ports:
       - 80:80
+      - 3306:3306
       - 8080:8080
     restart: always
     networks:
-      - default
-      - traefik-docker
-
-  # Improve security by not giving Traefik direct access to the docker socket
-  # See https://docs.traefik.io/v1.7/configuration/backends/docker/#security-considerations
-  # and https://github.com/containous/traefik/issues/4174#issuecomment-446564816
-  docker-socket-proxy:
-    image: tecnativa/docker-socket-proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    environment:
-      CONTAINERS: 1
-      NETWORKS: 1
-      SERVICES: 1
-      TASKS: 1
-    restart: always
-    networks:
-      - traefik-docker
+      - traefik-public
 
   rabbitmq:
     build: docker/rabbitmq
@@ -34,10 +31,9 @@ services:
       - 15672:15672
       - 5672:5672
     restart: always
+    networks:
+      - traefik-public
 
 networks:
-  # The traefik-docker network is intended to be used by Traefik to access the docker-socket-proxy service, and
-  # shouldn't be used by other services.
-  traefik-docker:
-    driver_opts:
-      encrypted: 'true'
+  traefik-public:
+    name: traefik-public
