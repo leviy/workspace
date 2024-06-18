@@ -6,7 +6,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Update Hosts file
         run: sudo sed -i '/^127.0.0.1/ s/$/ test.localhost/' /etc/hosts
       - run: docker-compose up -d
