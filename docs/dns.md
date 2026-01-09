@@ -8,41 +8,15 @@ host you need to configure your DNS to resolve all hostnames ending on
 
 ## Linux (Ubuntu)
 
-On Ubuntu 18.04 no action is required, because [systemd-resolved](https://manpages.ubuntu.com/manpages/bionic/man8/systemd-resolved.service.8.html)
-already resolves hostnames ending on ".localhost" to 127.0.0.1 and ::1.
+On Ubuntu 20.04 you have to manually add lines to the /etc/hosts file for all domains that
+you want to resolve locally:
 
-If for some reason resolving is not working on Ubuntu, make sure that the
-symlink `/etc/resolv.conf` is pointing to `/run/systemd/resolve/stub-resolv.conf`:
-
-```bash
-ll /etc/resolv.conf
+```
+127.0.0.1	dashboard.leviy.test
+127.0.0.1	files.leviy.test
+127.0.0.1	accounts.leviy.test
 ```
 
-If this doesn't point to `/run/systemd/resolve/stub-resolv.conf`, overwrite the
-symbolic link:
+On Ubuntu 24.04 you can use the `systemd-resolve` to resolve all domains ending on ".test" to 127.0.0.1.
 
-```bash
-sudo ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-```
-
-## macOS High Sierra
-
-On macOS the same can be achieved by installing dnsmasq and configuring it to
-route all traffic for ".localhost" to 127.0.0.1:
-
-```bash
-brew install dnsmasq
-
-mkdir -pv $(brew --prefix)/etc/
-echo 'address=/.localhost/127.0.0.1' >> $(brew --prefix)/etc/dnsmasq.conf
-echo 'port=53' >> $(brew --prefix)/etc/dnsmasq.conf
-
-sudo brew services start dnsmasq
-
-sudo mkdir -v /etc/resolver
-sudo bash -c 'echo "nameserver 127.0.0.1" > /etc/resolver/localhost'
-
-ping dashboard.leviy.localhost
-```
-
-[Source](https://medium.com/@kharysharpe/automatic-local-domains-setting-up-dnsmasq-for-macos-high-sierra-using-homebrew-caf767157e43)
+(work in progress, will add additional instructions as soon as we updated to Ubuntu 24.04)
