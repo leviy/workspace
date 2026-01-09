@@ -7,7 +7,7 @@
 The Docker Compose file in this repository contains an instance of
 [Traefik](https://traefik.io/) for development purposes. It allows you to access
 microservices through your browser using a hostname (such as
-`accounts.leviy.localhost`) and to run multiple microservices at the same time
+`accounts.leviy.test`) and to run multiple microservices at the same time
 without port binding conflicts.
 
 ## Getting started
@@ -16,14 +16,14 @@ without port binding conflicts.
 
 - [Docker](https://docs.docker.com/install/)
 - [Docker Compose](https://docs.docker.com/compose/)
-- A DNS resolver that resolves any hostname ending in ".localhost" to 127.0.0.1 (see [instructions](docs/dns.md))
+- A DNS resolver that resolves any hostname ending in ".test" to 127.0.0.1 (see [instructions](docs/dns.md))
 
 ### Installation
 
 ```bash
 git clone git@github.com:leviy/workspace.git
 cd workspace
-docker-compose up -d
+docker compose up -d
 ```
 
 The Docker Compose file contains the `restart: always` directive so Docker will
@@ -32,7 +32,7 @@ need to start another container or project that needs to bind to port 80, you
 can stop the containers using:
 
 ```bash
-docker-compose stop
+docker compose stop
 ```
 
 ### Usage
@@ -51,7 +51,7 @@ services:
       - workspace
       - default
     labels:
-      traefik.frontend.rule: Host:subdomain.leviy.localhost
+      traefik.frontend.rule: Host:subdomain.leviy.test
       traefik.enable: 'true'
 
 networks:
@@ -67,5 +67,5 @@ Non-web services (such as databases, etc.) should only be linked to the
 
 When started, Traefik will automatically detect this service and start routing
 traffic to it.
-To see it in action simply open `http://subdomain.leviy.localhost` in a
+To see it in action simply open `http://subdomain.leviy.test` in a
 browser.
