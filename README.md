@@ -7,7 +7,7 @@
 The Docker Compose file in this repository contains an instance of
 [Traefik](https://traefik.io/) for development purposes. It allows you to access
 microservices through your browser using a hostname (such as
-`accounts.leviy.test`) and to run multiple microservices at the same time
+`accounts.test.leviy.com`) and to run multiple microservices at the same time
 without port binding conflicts.
 
 ## Getting started
@@ -16,7 +16,6 @@ without port binding conflicts.
 
 - [Docker](https://docs.docker.com/install/)
 - [Docker Compose](https://docs.docker.com/compose/)
-- A DNS resolver that resolves any hostname ending in ".test" to 127.0.0.1 (see [instructions](docs/dns.md))
 
 ### Installation
 
@@ -50,22 +49,25 @@ services:
     networks:
       - workspace
       - default
+
     labels:
-      traefik.frontend.rule: Host:subdomain.leviy.test
-      traefik.enable: 'true'
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-public"
+      - "traefik.http.routers.microservice-name.rule=Host(`microservice-name.test.leviy.com`)"
+    networks:
+      traefik-public:
+        aliases:
+          - microservice-name.test.leviy.com
 
 networks:
-  workspace:
-    external:
-      name: workspace_default
+  traefik-public:
+    external: true
 ```
 
-Web server services that should be reverse proxied should be linked to both the
-`workspace` network and the `default` network of that Docker Compose project.
-Non-web services (such as databases, etc.) should only be linked to the
-`default` network.
+Services that need to access the workspace for either reverse proxying or to access any of the services provided by it should be
+put in the `traefik-public` network.
 
 When started, Traefik will automatically detect this service and start routing
 traffic to it.
-To see it in action simply open `http://subdomain.leviy.test` in a
+To see it in action simply open `http://microservice-name.test.leviy.com` in a
 browser.
