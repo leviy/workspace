@@ -12,13 +12,19 @@ services:
       - "--providers.docker.exposedbydefault=false"
       - "--providers.docker.endpoint=unix:///var/run/docker.sock"
       - "--entrypoints.web.address=:80"
+      - "--entrypoints.web.http.redirections.entryPoint.to=websecure"
+      - "--entrypoints.web.http.redirections.entryPoint.scheme=https"
       - "--entrypoints.websecure.address=:443"
       - "--entrypoints.mysql.address=:3306"
+      - "--providers.file.directory=/etc/traefik/dynamic"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - /var/log/traefik:/var/log/traefik
+      - ./certs:/certs:ro
+      - ./traefik-dynamic.yml:/etc/traefik/dynamic/traefik-dynamic.yml:ro
     ports:
       - 80:80
+      - 443:443
       - 3306:3306
       - 8080:8080
     restart: always
